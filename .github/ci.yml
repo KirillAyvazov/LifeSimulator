@@ -1,0 +1,33 @@
+
+name: Python application
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: python:3.7
+
+    steps:
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+    
+    - name: Black
+      run: |
+        black --diff --check .
+
+    - name: Isort
+      run: |
+        isort --check-only --diff .
+
+    - name: Pytest
+      run: |
+        pytest
